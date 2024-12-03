@@ -1,3 +1,4 @@
-from face_recognition import run_camera_app, gray_scale
+from face_recognition import *
+
 if __name__ == '__main__':
-    run_camera_app(filter=gray_scale)
+    run_camera_app(filter=find_countours)
