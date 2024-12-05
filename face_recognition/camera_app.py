@@ -2,6 +2,7 @@ from typing import Callable
 import cv2
 import numpy as np
 import datetime
+from time import time
 
 
 def nothing(frame: np.ndarray) -> np.ndarray:
@@ -14,6 +15,9 @@ def run_camera_app(filter: Callable[[np.ndarray], np.ndarray] = nothing, camera_
     if not cap.isOpened():
         print("Error: Unable to access the camera.")
         raise SystemExit
+    
+    total_frames = 0
+    starting_time = time()
     try:
         while True:
             ret, frame = cap.read()
@@ -21,6 +25,9 @@ def run_camera_app(filter: Callable[[np.ndarray], np.ndarray] = nothing, camera_
             if not ret:
                 print("Error: Unable to read from the camera.")
                 break
+            
+            total_frames += 1
+            
             frame = filter(frame)
             cv2.imshow('Live Camera Feed', frame)
 
@@ -32,6 +39,7 @@ def run_camera_app(filter: Callable[[np.ndarray], np.ndarray] = nothing, camera_
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
     finally:
+        print('Average number of fps:', round(total_frames / (time() - starting_time), 1))
         cap.release()
         cv2.destroyAllWindows()
 
