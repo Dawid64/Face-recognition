@@ -67,7 +67,7 @@ class Model:
     def detect_faces(self, image:np.ndarray):
         image, original_width, original_height = self._preprocess_image(image)
         input_image = np.expand_dims(image, axis=0)
-        prediction = self.model.predict(input_image)[0]
+        prediction = self.model.predict(input_image, verbose=0)[0]
         x = int(prediction[0] * original_width)
         y = int(prediction[1] * original_height)
         width = int(prediction[2] * original_width)
