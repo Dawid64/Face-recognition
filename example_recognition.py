@@ -1,5 +1,4 @@
-from face_recognition.model.model import Model
-from face_recognition import run_camera_app
+from face_recognition import run_camera_app, Model
 
 model = Model()
 model.train('samples/samples.csv', 200)
